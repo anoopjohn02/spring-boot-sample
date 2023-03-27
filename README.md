@@ -9,3 +9,4 @@ A spring boot sample project that represent following features.
 - Lombok
 - Unit Testing and Mockito
 - Docker
+- Profiles
