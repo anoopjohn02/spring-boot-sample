@@ -11,7 +11,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
     private static String[] ignoreUrls = {"/actuator/**", "/v2/api-docs",
             "/swagger-resources/configuration/ui", "/swagger-resources",

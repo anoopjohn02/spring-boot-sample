@@ -10,9 +10,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-@EnableScheduling
-@EnableCaching
-@EnableAsync
 public class DeviceConfig {
     @Bean
     public RestTemplate restTemplate() {
