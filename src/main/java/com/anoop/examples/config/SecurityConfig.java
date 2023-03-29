@@ -1,7 +1,5 @@
 package com.anoop.examples.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,8 +11,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static String[] ignoreUrls = {"/actuator/**", "/v2/api-docs",
-            "/swagger-resources/configuration/ui", "/swagger-resources",
-            "/swagger-resources/configuration/security", "/swagger-ui.html", "/webjars/**"};
+            "/swagger-resources/**", "/swagger-ui/**", "/webjars/**"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
