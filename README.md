@@ -6,6 +6,7 @@ A spring boot sample project that represent following features.
 - DB Connectivity(Mongo)
 - RestTemplate Usage
 - Method Level Security
+- Spring Events
 - Lombok
 - Unit Testing and Mockito
 - Docker
