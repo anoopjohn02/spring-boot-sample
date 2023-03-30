@@ -2,6 +2,7 @@ package com.anoop.examples.services.alerts;
 
 import com.anoop.examples.data.entities.AlertEntity;
 import com.anoop.examples.data.repos.AlertRepository;
+import com.anoop.examples.exceptions.AccessDeniedException;
 import com.anoop.examples.exceptions.ErrorCodes;
 import com.anoop.examples.exceptions.InternalServerException;
 import com.anoop.examples.exceptions.NotFoundException;
@@ -12,6 +13,7 @@ import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +40,7 @@ public class AlertService {
      * @return created {@link Alert} Object
      */
     @Transactional
+    //@PreAuthorize()
     public Alert create(Alert alert, IotoUser user) {
         AlertEntity entity = modelMapper.map(alert, AlertEntity.class);
         entity = alertRepository.save(entity);
@@ -85,6 +88,20 @@ public class AlertService {
     public void delete(String id, IotoUser user) {
         AlertEntity alertEntity = getEntity(id);
         alertRepository.delete(alertEntity);
+    }
+
+    public boolean userCanCreateAlert(IotoUser user) {
+        if(user.getRoles().contains("DEVICE")) {
+            return true;
+        }
+        throw new AccessDeniedException(ErrorCodes.ACCESS_DENIED);
+    }
+
+    public boolean userCanDeleteAlert(IotoUser user) {
+        if(user.getRoles().contains("COMPANY_ADMIN")) {
+            return true;
+        }
+        throw new AccessDeniedException(ErrorCodes.ACCESS_DENIED);
     }
 
     private AlertEntity getEntity(String id) {

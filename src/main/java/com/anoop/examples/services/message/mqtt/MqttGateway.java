@@ -5,30 +5,18 @@ import com.anoop.examples.model.Alert;
 import com.anoop.examples.model.IotoMessage;
 import com.anoop.examples.services.message.IotoGateway;
 import com.anoop.examples.services.message.IotoMessageHandler;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.paho.client.mqttv3.IMqttClient;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Profile("mqtt")
-@Service("mqttGateway")
+@Service
 public class MqttGateway implements IotoGateway {
 
-    private final String MESSAGE_URL = "app/message";
-
-    private final ObjectMapper mapper = new ObjectMapper();
-
-    @Lazy
     @Autowired
-    private IMqttClient mqttClient;
-
-    @Autowired
-    private MqttListener mqttListener;
+    private MqttConnection connection;
 
     @Override
     public void sendHeartBeat(String deviceId) throws Exception {
@@ -37,7 +25,7 @@ public class MqttGateway implements IotoGateway {
             IotoMessage message = new IotoMessage();
             message.setDeviceId(deviceId);
             message.setMessageType(MessageType.HEART_BEAT);
-            sendMessage(deviceId, message);
+            connection.sendMessage(deviceId, message);
         } else {
             log.debug("MQTT not connected");
         }
@@ -51,7 +39,7 @@ public class MqttGateway implements IotoGateway {
             message.setDeviceId(alert.getDeviceId());
             message.setMessageType(MessageType.ALERT);
             message.setMessage(alert);
-            sendMessage(deviceId, message);
+            connection.sendMessage(deviceId, message);
         } else {
             log.debug("MQTT not connected");
         }
@@ -59,23 +47,17 @@ public class MqttGateway implements IotoGateway {
 
     @Override
     public void subscribe(String deviceId, IotoMessageHandler handler) throws Exception {
-        mqttClient.subscribeWithResponse(MESSAGE_URL + "/" + deviceId, mqttListener);
-        mqttListener.addToMessageHandler(deviceId, handler);
+        connection.subscribe(deviceId, handler);
+    }
+
+    @Override
+    public void connect() throws Exception {
+        connection.connect();
     }
 
     @Override
     public boolean isConnected() {
-        return mqttClient != null && mqttClient.isConnected();
+        return connection.connected();
     }
 
-    private void sendMessage(String deviceId, IotoMessage payload) throws Exception{
-        String json = mapper.writeValueAsString(payload);
-        String destination = MESSAGE_URL + "/" + deviceId;
-        log.debug("URL {} json : {}", destination, json);
-        MqttMessage mqttMessage = new MqttMessage(json.getBytes());
-        mqttMessage.setQos(0);
-        mqttMessage.setRetained(true);
-        mqttClient.publish(destination, mqttMessage);
-        log.debug("Msg published to {}", destination);
-    }
 }

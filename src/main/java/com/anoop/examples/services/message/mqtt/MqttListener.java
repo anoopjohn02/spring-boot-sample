@@ -8,13 +8,14 @@ import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
 @Profile("mqtt")
-@Configuration
+@Component
 public class MqttListener implements IMqttMessageListener {
 
     private ObjectMapper mapper = new ObjectMapper();

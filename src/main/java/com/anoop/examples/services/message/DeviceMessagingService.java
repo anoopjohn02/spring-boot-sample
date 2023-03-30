@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-
 @Slf4j
 @Service
 public class DeviceMessagingService implements IotoMessageHandler {
@@ -26,6 +24,10 @@ public class DeviceMessagingService implements IotoMessageHandler {
     @Scheduled(fixedDelay = 5000)
     public void sendHeartBeat() {
         try {
+            if(!gateway.isConnected()){
+                gateway.connect();
+            }
+            log.info("Sending heart-beat....");
             gateway.sendHeartBeat(userId);
         } catch (Exception exception) {
             log.error("Error while sending heart beat", exception);

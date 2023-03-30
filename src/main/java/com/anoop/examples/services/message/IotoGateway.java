@@ -2,7 +2,6 @@ package com.anoop.examples.services.message;
 
 import com.anoop.examples.model.Alert;
 import com.anoop.examples.model.IotoMessage;
-import com.anoop.examples.services.message.IotoMessageHandler;
 
 public interface IotoGateway {
 
@@ -32,6 +31,10 @@ public interface IotoGateway {
      */
     void subscribe(String deviceId, IotoMessageHandler handler)throws Exception;
 
+    /**
+     * Method to connect to messaging service.
+     */
+    void connect() throws Exception;
     /**
      * Method to check the connection status.
      *
