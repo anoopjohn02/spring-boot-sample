@@ -45,19 +45,19 @@ public class IotoUserProvider implements HandlerMethodArgumentResolver {
                                     ModelAndViewContainer modelAndViewContainer,
                                     NativeWebRequest nativeWebRequest,
                                     WebDataBinderFactory webDataBinderFactory) {
-        if (supportsParameter(methodParameter)){
+        if (supportsParameter(methodParameter)) {
             Principal principal = nativeWebRequest.getUserPrincipal();
             return getIotoActiveUser(principal);
-        } else{
+        } else {
             return null;
         }
     }
 
     private IotoUser getIotoActiveUser(Principal principal) throws MSRuntimeException {
-        try{
+        try {
             if (principal instanceof JwtAuthenticationToken) {
-                JwtAuthenticationToken authentication = (JwtAuthenticationToken)principal;
-                Jwt jwt = (Jwt)authentication.getPrincipal();
+                JwtAuthenticationToken authentication = (JwtAuthenticationToken) principal;
+                Jwt jwt = (Jwt) authentication.getPrincipal();
                 return getIotoUser(jwt);
             }
             throw new NotFoundException(ErrorCodes.ACCOUNT_NOT_EXIST);
@@ -67,7 +67,7 @@ public class IotoUserProvider implements HandlerMethodArgumentResolver {
         }
     }
 
-    private IotoUser getIotoUser(Jwt jwt){
+    private IotoUser getIotoUser(Jwt jwt) {
 
         String userId = jwt.getClaimAsString("sub");
         String userName = jwt.getClaimAsString("preferred_username");
@@ -75,29 +75,29 @@ public class IotoUserProvider implements HandlerMethodArgumentResolver {
         String manufacturerId = jwt.getClaimAsString("manufacturer_id");
         String clientId = jwt.getClaimAsString("client_id");
 
-        Map<String, Object> access = (Map<String, Object>)jwt.getClaims().get("realm_access");
-        List<String> roles = (List<String>)access.get("roles");
-        Map<String, Object> resourceAccess = (Map<String, Object>)jwt.getClaims().get("resource_access");
-        if(resourceAccess != null && resourceAccess.containsKey(clientId)) {
+        Map<String, Object> access = (Map<String, Object>) jwt.getClaims().get("realm_access");
+        List<String> roles = (List<String>) access.get("roles");
+        Map<String, Object> resourceAccess = (Map<String, Object>) jwt.getClaims().get("resource_access");
+        if (resourceAccess != null && resourceAccess.containsKey(clientId)) {
             Map<String, Object> clientResourceAccess = (Map<String, Object>) resourceAccess.get(clientId);
-            List<String> clientRoles = (List<String>)clientResourceAccess.get("roles");
+            List<String> clientRoles = (List<String>) clientResourceAccess.get("roles");
             roles.addAll(clientRoles);
         }
 
         String companyId = "";
-        Map<String, Object> groups = (Map<String, Object>)jwt.getClaims().get("groups");
+        Map<String, Object> groups = (Map<String, Object>) jwt.getClaims().get("groups");
         List<String> groupIds = new ArrayList<>();
-        for(String groupId : groups.keySet()){
+        for (String groupId : groups.keySet()) {
             groupIds.add(groupId);
         }
-        if(groupIds.isEmpty() || groupIds.size() > 1){
+        if (groupIds.isEmpty() || groupIds.size() > 1) {
             throw new NotFoundException(ErrorCodes.COMPANY_NOT_EXIST);
         } else {
             companyId = groupIds.get(0);
         }
 
         boolean isCompanyUser = false;
-        if(manufacturerId != null && !manufacturerId.equals(companyId)){
+        if (manufacturerId != null && !manufacturerId.equals(companyId)) {
             isCompanyUser = true;
         }
 

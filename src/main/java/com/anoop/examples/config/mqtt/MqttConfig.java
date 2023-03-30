@@ -38,7 +38,7 @@ public class MqttConfig {
         return instance;
     }
 
-    public void connect() throws Exception{
+    public void connect() throws Exception {
         log.info("Connecting Mqtt");
         MqttConnectOptions options = new MqttConnectOptions();
         options.setAutomaticReconnect(true);
@@ -53,7 +53,7 @@ public class MqttConfig {
         log.info("Mqtt connected");
     }
 
-    public boolean connected(){
+    public boolean connected() {
         return instance.isConnected();
     }
 }

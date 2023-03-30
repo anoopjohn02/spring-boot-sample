@@ -20,7 +20,7 @@ public class MsExceptionHandler {
     public ResponseEntity<Object> handle(Exception ex,
                                          HttpServletRequest request, HttpServletResponse response) {
         if (ex instanceof MSRuntimeException) {
-            MSRuntimeException msRuntimeException = (MSRuntimeException)ex;
+            MSRuntimeException msRuntimeException = (MSRuntimeException) ex;
 
             ErrorResponse errorResponse = new ErrorResponse();
             errorResponse.setError(true);

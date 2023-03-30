@@ -25,7 +25,7 @@ public class IotoMqttCallback implements MqttCallback {
 
     @Override
     public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
-        log.warn("Received Unhandled message: " + s + " -> " + mqttMessage );
+        log.warn("Received Unhandled message: " + s + " -> " + mqttMessage);
     }
 
     @Override

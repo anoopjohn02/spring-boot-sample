@@ -34,11 +34,11 @@ public class AlertService {
      * Method to create alert.
      *
      * @param alert to be created
-     * @param user the logged-in user
+     * @param user  the logged-in user
      * @return created {@link Alert} Object
      */
     @Transactional
-    public Alert create(Alert alert, IotoUser user){
+    public Alert create(Alert alert, IotoUser user) {
         AlertEntity entity = modelMapper.map(alert, AlertEntity.class);
         entity = alertRepository.save(entity);
         publisher.publishEvent(new AlertCreatedEvent(alert, user));
@@ -51,7 +51,7 @@ public class AlertService {
      * @param id the alert id
      * @return {@link Alert} Object
      */
-    public Alert get(String id){
+    public Alert get(String id) {
         AlertEntity alertEntity = getEntity(id);
         return getAlert(alertEntity);
     }
@@ -62,7 +62,7 @@ public class AlertService {
      * @param deviceId the device id
      * @return list of {@link Alert}
      */
-    public List<Alert> getByDeviceId(String deviceId){
+    public List<Alert> getByDeviceId(String deviceId) {
         try {
             List<AlertEntity> entities = alertRepository.findByDeviceId(deviceId);
             return entities.stream()
@@ -78,24 +78,24 @@ public class AlertService {
      * Method to delete an alert.
      * This will validate whether the user can permission to delete an alert.
      *
-     * @param id the alert id
+     * @param id   the alert id
      * @param user the logged-in user
      */
     @Transactional
-    public void delete(String id, IotoUser user){
+    public void delete(String id, IotoUser user) {
         AlertEntity alertEntity = getEntity(id);
         alertRepository.delete(alertEntity);
     }
 
     private AlertEntity getEntity(String id) {
         Optional<AlertEntity> entityOpt = alertRepository.findById(new ObjectId(id));
-        if(!entityOpt.isPresent()){
+        if (!entityOpt.isPresent()) {
             throw new NotFoundException(ErrorCodes.ALERT_NOT_FOUND);
         }
         return entityOpt.get();
     }
 
-    private Alert getAlert(AlertEntity entity){
+    private Alert getAlert(AlertEntity entity) {
         Alert alert = modelMapper.map(entity, Alert.class);
         String id = entity.get_id().toString();
         alert.setId(id);
