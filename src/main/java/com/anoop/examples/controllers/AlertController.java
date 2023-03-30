@@ -3,7 +3,7 @@ package com.anoop.examples.controllers;
 import com.anoop.examples.config.InjectIotoUser;
 import com.anoop.examples.model.Alert;
 import com.anoop.examples.model.IotoUser;
-import com.anoop.examples.services.AlertService;
+import com.anoop.examples.services.alerts.AlertService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

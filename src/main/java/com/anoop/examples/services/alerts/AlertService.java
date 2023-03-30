@@ -1,4 +1,4 @@
-package com.anoop.examples.services;
+package com.anoop.examples.services.alerts;
 
 import com.anoop.examples.data.entities.AlertEntity;
 import com.anoop.examples.data.repos.AlertRepository;
@@ -7,7 +7,6 @@ import com.anoop.examples.exceptions.InternalServerException;
 import com.anoop.examples.exceptions.NotFoundException;
 import com.anoop.examples.model.Alert;
 import com.anoop.examples.model.IotoUser;
-import com.anoop.examples.services.events.AlertCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
