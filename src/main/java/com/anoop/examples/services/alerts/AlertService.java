@@ -30,6 +30,13 @@ public class AlertService {
     @Autowired
     private ApplicationEventPublisher publisher;
 
+    /**
+     * Method to create alert.
+     *
+     * @param alert to be created
+     * @param user the logged-in user
+     * @return created {@link Alert} Object
+     */
     @Transactional
     public Alert create(Alert alert, IotoUser user){
         AlertEntity entity = modelMapper.map(alert, AlertEntity.class);
@@ -38,11 +45,23 @@ public class AlertService {
         return getAlert(entity);
     }
 
+    /**
+     * Method to get a single alert.
+     *
+     * @param id the alert id
+     * @return {@link Alert} Object
+     */
     public Alert get(String id){
         AlertEntity alertEntity = getEntity(id);
         return getAlert(alertEntity);
     }
 
+    /**
+     * Method to get a list of {@link Alert} for a device.
+     *
+     * @param deviceId the device id
+     * @return list of {@link Alert}
+     */
     public List<Alert> getByDeviceId(String deviceId){
         try {
             List<AlertEntity> entities = alertRepository.findByDeviceId(deviceId);
@@ -55,6 +74,13 @@ public class AlertService {
         }
     }
 
+    /**
+     * Method to delete an alert.
+     * This will validate whether the user can permission to delete an alert.
+     *
+     * @param id the alert id
+     * @param user the logged-in user
+     */
     @Transactional
     public void delete(String id, IotoUser user){
         AlertEntity alertEntity = getEntity(id);

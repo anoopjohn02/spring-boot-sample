@@ -30,7 +30,7 @@ public class MqttListener implements IMqttMessageListener {
             log.debug("Received message: " + s + " -> " + message );
             IotoMessage iotoMessage = (IotoMessage)parseMessage(message, IotoMessage.class);
             received(iotoMessage, s);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             log.error("Error processing message: ", ex);
         }
     }
