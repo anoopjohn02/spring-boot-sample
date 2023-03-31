@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 public class MqttConnection {
 
     public static final String MQTT_PUBLISHER_ID = "ioto-device-";
-    public final String MESSAGE_URL = "app/message";
+    public static final String MESSAGE_URL = "app/message";
 
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -37,8 +37,6 @@ public class MqttConnection {
 
     @Autowired
     private MqttClient mqttClient;
-
-
 
     public void connect() throws MqttException {
         log.info("Connecting Mqtt");
