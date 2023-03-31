@@ -4,7 +4,6 @@ import com.anoop.examples.model.IotoMessage;
 import com.anoop.examples.services.message.IotoMessageHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -14,19 +13,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-
 @Slf4j
 @Profile("mqtt")
 @Component
 public class MqttConnection {
 
-    private static final String MQTT_PUBLISHER_ID = "ioto-device-";
-    private final String MESSAGE_URL = "app/message";
-    private final ObjectMapper mapper = new ObjectMapper();
+    public static final String MQTT_PUBLISHER_ID = "ioto-device-";
+    public final String MESSAGE_URL = "app/message";
 
-    @Value("${ioto.mqtt.server.url}")
-    private String host;
+    private final ObjectMapper mapper = new ObjectMapper();
 
     @Value("${ioto.login.userId}")
     private String userName;
@@ -40,14 +35,10 @@ public class MqttConnection {
     @Autowired
     private MqttListener mqttListener;
 
+    @Autowired
     private MqttClient mqttClient;
 
-    @PostConstruct
-    public IMqttClient mqttClient() throws Exception {
-        mqttClient = new MqttClient(host, MQTT_PUBLISHER_ID + userName);
-        mqttClient.setTimeToWait(5000);
-        return mqttClient;
-    }
+
 
     public void connect() throws MqttException {
         log.info("Connecting Mqtt");

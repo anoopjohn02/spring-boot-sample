@@ -40,7 +40,7 @@ public class AlertService {
      * @return created {@link Alert} Object
      */
     @Transactional
-    //@PreAuthorize()
+    @PreAuthorize("@alertService.userCanCreateAlert(#user)")
     public Alert create(Alert alert, IotoUser user) {
         AlertEntity entity = modelMapper.map(alert, AlertEntity.class);
         entity = alertRepository.save(entity);
@@ -85,6 +85,7 @@ public class AlertService {
      * @param user the logged-in user
      */
     @Transactional
+    @PreAuthorize("@alertService.userCanDeleteAlert(#user)")
     public void delete(String id, IotoUser user) {
         AlertEntity alertEntity = getEntity(id);
         alertRepository.delete(alertEntity);
