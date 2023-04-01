@@ -71,7 +71,6 @@ public class IotoUserProvider implements HandlerMethodArgumentResolver {
 
         String userId = jwt.getClaimAsString("sub");
         String userName = jwt.getClaimAsString("preferred_username");
-        String token = jwt.getTokenValue();
         String manufacturerId = jwt.getClaimAsString("manufacturer_id");
         String clientId = jwt.getClaimAsString("client_id");
 
@@ -101,7 +100,7 @@ public class IotoUserProvider implements HandlerMethodArgumentResolver {
             isCompanyUser = true;
         }
 
-        return new IotoUser(userId, userName, clientId, companyId, token,
+        return new IotoUser(userId, userName, clientId, companyId,
                 isCompanyUser, roles, manufacturerId);
     }
 

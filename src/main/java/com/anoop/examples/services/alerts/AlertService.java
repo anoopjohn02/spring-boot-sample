@@ -33,6 +33,8 @@ public class AlertService {
 
     /**
      * Method to create alert.
+     * <p>{@link #userCanCreateAlert(IotoUser)} will validate whether
+     * the user can have to create an alert.</p>
      *
      * @param alert to be created
      * @param user  the logged-in user
@@ -74,7 +76,8 @@ public class AlertService {
 
     /**
      * Method to delete an alert.
-     * This will validate whether the user can permission to delete an alert.
+     * <p> {@link #userCanDeleteAlert(IotoUser)} will validate whether the user
+     * have permission to delete an alert.</p>
      *
      * @param id   the alert id
      * @param user the logged-in user

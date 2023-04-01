@@ -13,7 +13,6 @@ public class IotoUser {
     private String userName;
     private String clientId;
     private String companyId;
-    private String token;
     private boolean companyUser;
     private final List<String> roles;
     private String manufacturerId;

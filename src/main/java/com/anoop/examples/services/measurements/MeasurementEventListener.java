@@ -20,6 +20,13 @@ public class MeasurementEventListener {
     @Autowired
     private AlertService alertService;
 
+    /**
+     * Method to handle {@link MeasurementCrossedLimitEvent}.
+     * <p>Create an {@link Alert} and send to {@link
+     * AlertService#create(Alert, IotoUser)}</p>
+     *
+     * @param event the {@link MeasurementCrossedLimitEvent}
+     */
     @Async
     @EventListener
     public void handleVoltageCrossedLimitEvent(MeasurementCrossedLimitEvent event) {
