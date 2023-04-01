@@ -4,7 +4,6 @@ import com.anoop.examples.data.entities.AlertEntity;
 import com.anoop.examples.data.repos.AlertRepository;
 import com.anoop.examples.exceptions.AccessDeniedException;
 import com.anoop.examples.exceptions.ErrorCodes;
-import com.anoop.examples.exceptions.InternalServerException;
 import com.anoop.examples.exceptions.NotFoundException;
 import com.anoop.examples.model.Alert;
 import com.anoop.examples.model.IotoUser;
@@ -44,6 +43,7 @@ public class AlertService {
     public Alert create(Alert alert, IotoUser user) {
         AlertEntity entity = modelMapper.map(alert, AlertEntity.class);
         entity = alertRepository.save(entity);
+        alert.setUId(entity.get_id().toString());
         publisher.publishEvent(new AlertCreatedEvent(alert, user));
         return getAlert(entity);
     }
@@ -66,15 +66,10 @@ public class AlertService {
      * @return list of {@link Alert}
      */
     public List<Alert> getByDeviceId(String deviceId) {
-        try {
-            List<AlertEntity> entities = alertRepository.findByDeviceId(deviceId);
-            return entities.stream()
-                    .map(this::getAlert)
-                    .collect(Collectors.toList());
-        } catch (Exception ex) {
-            log.error("Exception Occurred ", ex);
-            throw new InternalServerException(ex);
-        }
+        List<AlertEntity> entities = alertRepository.findByDeviceId(deviceId);
+        return entities.stream()
+                .map(this::getAlert)
+                .collect(Collectors.toList());
     }
 
     /**
