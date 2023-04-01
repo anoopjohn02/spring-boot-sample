@@ -109,6 +109,7 @@
                 </executions>
                 <configuration>
                     <mainClass>${main.class}</mainClass>
+                    <fork>false</fork>
                 </configuration>
             </plugin>
             <plugin>

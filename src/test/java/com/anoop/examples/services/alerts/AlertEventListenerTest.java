@@ -28,7 +28,7 @@ public class AlertEventListenerTest {
     @Test
     public void testHandleAlertCreatedEvent() throws Exception {
         final String userId = "userId";
-        when(user.getUserId()).thenReturn(userId);
+        when(user.getUserName()).thenReturn(userId);
         Alert alert = new Alert();
         alert.setDescription("test");
         alert.setSeverity(Severity.MAJOR);

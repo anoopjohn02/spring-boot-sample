@@ -4,6 +4,7 @@ import com.anoop.examples.model.IotoMessage;
 import com.anoop.examples.services.message.IotoMessageHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -36,7 +37,7 @@ public class MqttConnection {
     private MqttListener mqttListener;
 
     @Autowired
-    private MqttClient mqttClient;
+    private IMqttClient mqttClient;
 
     public void connect() throws MqttException {
         log.info("Connecting Mqtt");

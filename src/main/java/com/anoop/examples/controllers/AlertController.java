@@ -36,7 +36,7 @@ public class AlertController {
 
   @GetMapping
   public List<Alert> getAll(@InjectIotoUser IotoUser user) {
-    return alertService.getByDeviceId(user.getUserId());
+    return alertService.getByDeviceId(user.getUserName());
   }
 
   @GetMapping("/{id}")

@@ -22,7 +22,7 @@ public class AlertEventListener {
     @EventListener
     public void handleAlertCreatedEvent(AlertCreatedEvent event) {
         try {
-            messagingService.sendAlert(event.getUser().getUserId(), event.getAlert());
+            messagingService.sendAlert(event.getUser().getUserName(), event.getAlert());
         } catch (Exception e) {
             log.error("Error inside handleAlertCreatedEvent", e);
         }
