@@ -9,7 +9,6 @@ import java.util.Map;
 public class Measurement {
     private String id;
     private String deviceId;
-    private String switchId;
     private String type;
     private long value;
     private String unit;
