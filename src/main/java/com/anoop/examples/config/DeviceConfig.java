@@ -2,6 +2,7 @@ package com.anoop.examples.config;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -12,10 +13,14 @@ import org.springframework.web.client.RestTemplate;
 @EnableScheduling
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class DeviceConfig {
+
+    @Autowired
+    private HeaderInterceptor interceptor;
+
     @Bean
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getInterceptors().add(new HeaderInterceptor());
+        restTemplate.getInterceptors().add(interceptor);
         return restTemplate;
     }
 
@@ -26,4 +31,5 @@ public class DeviceConfig {
                 .setMatchingStrategy(MatchingStrategies.STRICT);
         return modelMapper;
     }
+
 }

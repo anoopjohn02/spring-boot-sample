@@ -45,12 +45,18 @@ public class MeasurementService {
     @Autowired
     private CloudService cloudService;
 
+    private IotoUser device;
+
     /**
      * Method will send a random measurement in every 15 mins.
      */
     @Scheduled(cron = "0 0/15 * * * ?")
     public void sendEnergyMeasurement() {
         try {
+            if(device == null){
+                device = cloudService.getUser();
+            }
+
             int energy = getRandomNumbers(500, 1500);
             Measurement measurement = new Measurement();
             measurement.setDeviceId(userId);
@@ -60,8 +66,7 @@ public class MeasurementService {
             measurement.setValue(energy);
             measurement.setUnit("Wh");
             measurement.setType("ENERGY_CONSUMPTION");
-
-            //create(null, measurement); TODO - Uncomment when user is ready
+            create(device, measurement);
         } catch (Exception ex) {
             log.error("Error while Sending Measurement ", ex);
         }
