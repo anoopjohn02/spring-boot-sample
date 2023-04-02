@@ -8,6 +8,7 @@ import com.anoop.examples.exceptions.ErrorCodes;
 import com.anoop.examples.exceptions.NotFoundException;
 import com.anoop.examples.model.IotoUser;
 import com.anoop.examples.model.Measurement;
+import com.anoop.examples.services.cloud.CloudService;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
@@ -41,6 +42,8 @@ public class MeasurementService {
     private ModelMapper modelMapper;
     @Autowired
     private ApplicationEventPublisher publisher;
+    @Autowired
+    private CloudService cloudService;
 
     /**
      * Method will send a random measurement in every 15 mins.
@@ -86,7 +89,7 @@ public class MeasurementService {
         MeasurementEntity entity = modelMapper.map(measurement, MeasurementEntity.class);
         entity = repository.save(entity);
 
-        //TODO - Send this measurement to cloud.
+        cloudService.send(List.of(measurement));
         return getMeasurement(entity);
     }
 

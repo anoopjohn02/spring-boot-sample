@@ -3,7 +3,6 @@ package com.anoop.examples.services.message.mqtt;
 import com.anoop.examples.model.IotoMessage;
 import com.anoop.examples.services.message.IotoMessageHandler;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
-import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

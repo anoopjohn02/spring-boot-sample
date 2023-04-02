@@ -1,20 +1,17 @@
 package com.anoop.examples.services.measurements;
 
 import com.anoop.examples.config.TestConfig;
-import com.anoop.examples.data.entities.AlertEntity;
 import com.anoop.examples.data.entities.MeasurementEntity;
 import com.anoop.examples.data.repos.MeasurementRepository;
 import com.anoop.examples.enums.CustomAlertType;
-import com.anoop.examples.enums.Severity;
 import com.anoop.examples.exceptions.AccessDeniedException;
 import com.anoop.examples.exceptions.NotFoundException;
-import com.anoop.examples.model.Alert;
 import com.anoop.examples.model.IotoUser;
 import com.anoop.examples.model.Measurement;
+import com.anoop.examples.services.cloud.CloudService;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -41,6 +38,8 @@ public class MeasurementServiceTest {
     @MockBean
     private ApplicationEventPublisher publisher;
     @MockBean
+    private CloudService cloudService;
+    @MockBean
     private IotoUser user;
 
     @Autowired
@@ -54,6 +53,7 @@ public class MeasurementServiceTest {
         entity.set_id(new ObjectId());
         when(user.getRoles()).thenReturn(List.of("DEVICE"));
         when(repository.save(any())).thenReturn(entity);
+        when(cloudService.send(any())).thenReturn(List.of());
 
         Measurement measurement = new Measurement();
         measurement.setDeviceId("test");
@@ -64,6 +64,7 @@ public class MeasurementServiceTest {
         assertNotNull(result.getId());
 
         verify(repository, times(1)).save(any());
+        verify(cloudService, times(1)).send(any());
         ArgumentCaptor<MeasurementCrossedLimitEvent> captor = ArgumentCaptor.forClass(MeasurementCrossedLimitEvent.class);
         verify(publisher, times(1)).publishEvent(captor.capture());
         MeasurementCrossedLimitEvent createdEvent = captor.getValue();

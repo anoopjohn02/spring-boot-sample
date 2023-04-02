@@ -1,14 +1,9 @@
 package com.anoop.examples.services.measurements;
 
 import com.anoop.examples.enums.CustomAlertType;
-import com.anoop.examples.enums.MessageType;
 import com.anoop.examples.model.Alert;
-import com.anoop.examples.model.IotoMessage;
 import com.anoop.examples.model.IotoUser;
-import com.anoop.examples.services.alerts.AlertCreatedEvent;
-import com.anoop.examples.services.alerts.AlertEventListener;
 import com.anoop.examples.services.alerts.AlertService;
-import com.anoop.examples.services.message.DeviceMessagingService;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
