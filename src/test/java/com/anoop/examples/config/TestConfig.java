@@ -27,4 +27,5 @@ public class TestConfig {
     public ApplicationEventPublisher publisher() {
         return mock(ApplicationEventPublisher.class);
     }
+
 }

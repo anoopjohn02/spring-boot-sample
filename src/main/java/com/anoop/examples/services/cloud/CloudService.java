@@ -34,7 +34,7 @@ public class CloudService {
      * @param measurements list of {@link Measurement} to be created
      * @return list of {@link Measurement} created from hub
      */
-    public List<Measurement> send(List<Measurement> measurements){
+    public List<Measurement> sendMeasurement(List<Measurement> measurements){
 
         log.info("Sending measurements size {}", measurements.size());
         HttpEntity<List<Measurement>> request = new HttpEntity<>(measurements);

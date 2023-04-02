@@ -95,7 +95,7 @@ public class MeasurementService {
         MeasurementEntity entity = modelMapper.map(measurement, MeasurementEntity.class);
         entity = repository.save(entity);
 
-        cloudService.send(List.of(measurement));
+        cloudService.sendMeasurement(List.of(measurement));
         return getMeasurement(entity);
     }
 

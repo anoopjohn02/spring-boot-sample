@@ -53,7 +53,7 @@ public class MeasurementServiceTest {
         entity.set_id(new ObjectId());
         when(user.getRoles()).thenReturn(List.of("DEVICE"));
         when(repository.save(any())).thenReturn(entity);
-        when(cloudService.send(any())).thenReturn(List.of());
+        when(cloudService.sendMeasurement(any())).thenReturn(List.of());
 
         Measurement measurement = new Measurement();
         measurement.setDeviceId("test");
@@ -64,7 +64,7 @@ public class MeasurementServiceTest {
         assertNotNull(result.getId());
 
         verify(repository, times(1)).save(any());
-        verify(cloudService, times(1)).send(any());
+        verify(cloudService, times(1)).sendMeasurement(any());
         ArgumentCaptor<MeasurementCrossedLimitEvent> captor = ArgumentCaptor.forClass(MeasurementCrossedLimitEvent.class);
         verify(publisher, times(1)).publishEvent(captor.capture());
         MeasurementCrossedLimitEvent createdEvent = captor.getValue();
