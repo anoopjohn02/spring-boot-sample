@@ -54,6 +54,7 @@ public class MeasurementService {
     public void sendEnergyMeasurement() {
         try {
             if(device == null){
+                log.info("Fetching device...");
                 device = cloudService.getUser();
             }
 
