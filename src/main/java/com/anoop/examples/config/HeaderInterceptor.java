@@ -25,9 +25,11 @@ public class HeaderInterceptor implements ClientHttpRequestInterceptor {
     public ClientHttpResponse intercept(HttpRequest request, byte[] body,
                                         ClientHttpRequestExecution execution) throws IOException {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
-        String token = requestAttributes.getRequest().getHeader(AUTH_HEADER);
-        if(Strings.isEmpty(token)) {
+        String token = "";
+        if(requestAttributes == null){
             token = authService.getToken();
+        } else {
+            token = requestAttributes.getRequest().getHeader(AUTH_HEADER);
         }
         HttpHeaders headers = request.getHeaders();
         headers.add(AUTH_HEADER, token);
