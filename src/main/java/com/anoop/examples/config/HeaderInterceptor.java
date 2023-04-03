@@ -1,10 +1,10 @@
 package com.anoop.examples.config;
 
 import com.anoop.examples.auth.AuthService;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
@@ -27,12 +27,15 @@ public class HeaderInterceptor implements ClientHttpRequestInterceptor {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
         String token = "";
         if(requestAttributes == null){
-            token = authService.getToken();
+            token = "Bearer " + authService.getToken();
         } else {
             token = requestAttributes.getRequest().getHeader(AUTH_HEADER);
         }
         HttpHeaders headers = request.getHeaders();
         headers.add(AUTH_HEADER, token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
+                "(KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
         ClientHttpResponse response = execution.execute(request, body);
         return response;
     }

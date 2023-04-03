@@ -83,11 +83,18 @@ public class AuthService {
 
         HttpHeaders headers = createHeaders();
         headers.set("Authorization", token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
+                "(KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
         HttpEntity<AuthForm> request = new HttpEntity<>(headers);
 
         RestTemplate restTemplate = getRestTemplate();
-        ResponseEntity<IotoUser> response = restTemplate.exchange(url, HttpMethod.GET, request, IotoUser.class);
-        if(response.getStatusCode().equals(HttpStatus.UNAUTHORIZED)){
+        try {
+            ResponseEntity<IotoUser> response = restTemplate.exchange(url, HttpMethod.GET, request, IotoUser.class);
+            if(response.getStatusCode().equals(HttpStatus.UNAUTHORIZED)){
+                return false;
+            }
+        } catch (Exception e) {
             return false;
         }
         return true;
