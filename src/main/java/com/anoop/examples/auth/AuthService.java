@@ -40,7 +40,7 @@ public class AuthService {
      *
      * @return the token
      */
-    public String getToken(){
+    public String getDeviceToken(){
         if(deviceAccount == null ||
            !validateToken(deviceAccount.getAccess_token())) {
             authenicate();

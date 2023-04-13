@@ -27,7 +27,7 @@ public class HeaderInterceptor implements ClientHttpRequestInterceptor {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
         String token = "";
         if(requestAttributes == null){
-            token = "Bearer " + authService.getToken();
+            token = "Bearer " + authService.getDeviceToken();
         } else {
             token = requestAttributes.getRequest().getHeader(AUTH_HEADER);
         }
