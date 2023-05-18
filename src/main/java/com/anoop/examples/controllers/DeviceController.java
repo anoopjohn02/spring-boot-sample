@@ -34,7 +34,7 @@ public class DeviceController {
                                           @InjectIotoUser IotoUser user) {
         LocalDateTime start = LocalDateTime.now();
         DeviceDetails result = deviceService.getDeviceDetails(deviceId, user);
-        log.info("Time taken seconds : ", ChronoUnit.SECONDS.between(start, LocalDateTime.now()));
+        log.info("Time taken milli seconds : {}", ChronoUnit.MILLIS.between(start, LocalDateTime.now()));
         return result;
     }
 }
