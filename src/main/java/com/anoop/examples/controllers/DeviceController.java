@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 @Slf4j
 @RestController
 @RequestMapping("v1/devices")
@@ -29,6 +32,9 @@ public class DeviceController {
     @GetMapping(value = {"/{deviceId}"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public DeviceDetails getDeviceDetails(@PathVariable(value = "deviceId") String deviceId,
                                           @InjectIotoUser IotoUser user) {
-        return deviceService.getDeviceDetails(deviceId, user);
+        LocalDateTime start = LocalDateTime.now();
+        DeviceDetails result = deviceService.getDeviceDetails(deviceId, user);
+        log.info("Time taken seconds : ", ChronoUnit.SECONDS.between(start, LocalDateTime.now()));
+        return result;
     }
 }
