@@ -5,8 +5,7 @@ import com.anoop.examples.exceptions.InternalServerException;
 import com.anoop.examples.exceptions.MSRuntimeException;
 import com.anoop.examples.exceptions.NotFoundException;
 import com.anoop.examples.model.IotoUser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -21,10 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Component
 public class IotoUserProvider implements HandlerMethodArgumentResolver {
-
-    private static final Logger logger = LoggerFactory.getLogger(IotoUserProvider.class);
 
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {
@@ -62,7 +60,7 @@ public class IotoUserProvider implements HandlerMethodArgumentResolver {
             }
             throw new NotFoundException(ErrorCodes.ACCOUNT_NOT_EXIST);
         } catch (Exception ex) {
-            logger.error("Error while creating IotoUser:", ex);
+            log.error("Error while creating IotoUser:", ex);
             throw new InternalServerException(ex);
         }
     }
