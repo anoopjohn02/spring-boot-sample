@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 @EnableScheduling
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableCircuitBreaker
 public class DeviceConfig {
 
     @Autowired

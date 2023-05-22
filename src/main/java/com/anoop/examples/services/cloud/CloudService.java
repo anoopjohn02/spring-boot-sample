@@ -79,6 +79,7 @@ public class CloudService {
      * @return {@link Device}
      */
     @PreAuthorize("@cloudService.userCanAccessDevice(#user)")
+    //@HystrixCommand(fallbackMethod = "getFallBackDeviceDetails")
     public Device getDeviceDetails(IotoUser user, String deviceId) {
         String url = hubUrl + "/remote/{deviceId}/CUSTOM_TYPE";
         UriComponents uriComponents =
@@ -87,6 +88,13 @@ public class CloudService {
 
         ResponseEntity<Device> response = restTemplate.getForEntity(uriComponents.toUri(), Device.class);
         return response.getBody();
+    }
+
+    public Device getFallBackDeviceDetails(String deviceId) {
+        Device dummy = new Device();
+        dummy.setUserId(deviceId);
+        dummy.setName("Not Found");
+        return dummy;
     }
 
     /**
