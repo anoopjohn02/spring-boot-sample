@@ -9,16 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 @ControllerAdvice
 public class MsExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(MsExceptionHandler.class);
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handle(Exception ex,
-                                         HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<Object> handle(Exception ex) {
         if (ex instanceof MSRuntimeException) {
             MSRuntimeException msRuntimeException = (MSRuntimeException) ex;
 
